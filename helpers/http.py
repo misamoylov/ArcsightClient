@@ -1,5 +1,6 @@
 import logging
 import requests
+import json
 
 
 class HTTPClient(object):
@@ -29,6 +30,12 @@ class HTTPClient(object):
         if not data:
             data = {}
         headers = {'Content-Type': 'application/xml;charset=utf-8'}
-        req = requests.post(self.hostname + endpoint + '&authToken={}'.format(self.token),
+        return  requests.post(self.hostname + endpoint + '&authToken={}'.format(self.token),
                             verify=False, headers=headers, data=data)
-        return req
+
+    def post_json(self, endpoint, data=None):
+        if not data:
+            data = {}
+        headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+        return requests.post(self.hostname + endpoint + '&authToken={}&alt=json'.format(self.token),
+                            verify=False, headers=headers, data=data)
